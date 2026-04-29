@@ -1441,15 +1441,25 @@ func (i *InfoPanel) OperationURL(id string) string {
 //
 // When you choose the country, it trigger the action of ajax which be sent to the given handler,
 // and return the city options to the field city.
-func (i *InfoPanel) FieldFilterOnChooseAjax(field, url string, handler Handler, fields ...string) *InfoPanel {
+func (i *InfoPanel) FieldFilterOnChooseAjax(field, url string, handler Handler, other ...string) *InfoPanel {
 
 	var changeField string
-	if len(fields) == 0 {
+	if len(other) == 0 {
 		changeField = i.FieldList[i.curFieldListIndex].Field
 	} else {
-		changeField = fields[0]
+		changeField = other[0]
 	}
-	js, callback := chooseAjax(changeField, field, i.OperationURL(url), handler)
+
+	var (
+		js       template.HTML
+		callback context.Node
+	)
+
+	if len(other) == 2 {
+		js, callback = chooseAjax(changeField, field, i.OperationURL(url), handler, template.HTML(other[1]))
+	} else {
+		js, callback = chooseAjax(changeField, field, i.OperationURL(url), handler)
+	}
 	i.FooterHtml += js
 	i.Callbacks = append(i.Callbacks, callback)
 	return i
