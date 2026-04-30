@@ -258,11 +258,11 @@ func (f Field) GetFilterFormFields(params parameter.Parameters, headField string
 		field.setOptionsFromSQL(sql[0])
 
 		if filter.Type.IsSingleSelect() {
-			field.Options = field.Options.SetSelected(params.GetFieldValue(f.Field), filter.Type.SelectedLabel())
+			field.Options = field.Options.SetSelected(value, filter.Type.SelectedLabel())
 		}
 
 		if filter.Type.IsMultiSelect() {
-			field.Options = field.Options.SetSelected(params.GetFieldValues(f.Field), filter.Type.SelectedLabel())
+			field.Options = field.Options.SetSelected(params.GetFieldValues(headField), filter.Type.SelectedLabel())
 		}
 
 		filterForm = append(filterForm, *field)
