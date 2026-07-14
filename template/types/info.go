@@ -593,7 +593,8 @@ type InfoPanel struct {
 
 	Callbacks Callbacks
 
-	Buttons Buttons
+	Buttons      Buttons
+	BatchButtons Buttons
 
 	TableLayout string
 
@@ -878,6 +879,12 @@ func (i *InfoPanel) AddButton(ctx *context.Context, title template.HTML, icon st
 	i.addButton(GetDefaultButtonGroup(title, icon, action, color...)).
 		addFooterHTML(action.FooterContent(ctx)).
 		addCallback(action.GetCallbacks())
+	return i
+}
+
+func (i *InfoPanel) AddBatchButton(ctx *context.Context, title template.HTML, icon string, action Action, names ...string) *InfoPanel {
+	i.BatchButtons = append(i.BatchButtons, GetNavButton(title, icon, action, names...))
+	i.addFooterHTML(action.FooterContent(ctx)).addCallback(action.GetCallbacks())
 	return i
 }
 

@@ -188,6 +188,12 @@ func (b *ActionIconButton) Content(ctx *context.Context) (template.HTML, templat
 
 type Buttons []Button
 
+type BatchContent struct {
+	Html template.HTML
+	Js   template.JS
+}
+type BatchContents []BatchContent
+
 func (b Buttons) Add(btn Button) Buttons {
 	return append(b, btn)
 }

@@ -3,6 +3,7 @@ package components
 import (
 	"html/template"
 
+	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/template/types"
 )
 
@@ -106,6 +107,8 @@ type DataTableAttribute struct {
 	HasFilter         bool
 	Action            template.HTML
 	ActionFold        bool
+	BatchButtons      types.Buttons
+	BatchContents     types.BatchContents
 	types.Attribute
 }
 
@@ -113,8 +116,26 @@ func (compo *DataTableAttribute) GetDataTableHeader() template.HTML {
 	return ComposeHtml(compo.TemplateList, compo.Separation, *compo, "table/box-header")
 }
 
+func (compo *DataTableAttribute) DoBatchContents(ctx *context.Context) types.DataTableAttribute {
+	if len(compo.BatchButtons) > 0 {
+		for _, BBut := range compo.BatchButtons {
+			html, js := BBut.Content(ctx)
+			compo.BatchContents = append(compo.BatchContents, types.BatchContent{
+				Html: html,
+				Js:   js,
+			})
+		}
+	}
+	return compo
+}
+
 func (compo *DataTableAttribute) SetThead(value types.Thead) types.DataTableAttribute {
 	compo.Thead = value
+	return compo
+}
+
+func (compo *DataTableAttribute) SetBatchButtons(btns types.Buttons) types.DataTableAttribute {
+	compo.BatchButtons = btns
 	return compo
 }
 

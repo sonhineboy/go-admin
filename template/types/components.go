@@ -7,6 +7,7 @@ package types
 import (
 	"html/template"
 
+	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/menu"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules"
 	"github.com/GoAdminGroup/go-admin/template/types/form"
@@ -121,6 +122,7 @@ type TableAttribute interface {
 
 type DataTableAttribute interface {
 	GetDataTableHeader() template.HTML
+
 	SetThead(value Thead) DataTableAttribute
 	SetInfoList(value []map[string]InfoItem) DataTableAttribute
 	SetEditUrl(value string) DataTableAttribute
@@ -134,6 +136,8 @@ type DataTableAttribute interface {
 	SetHideThead() DataTableAttribute
 	SetLayout(value string) DataTableAttribute
 	SetButtons(btns template.HTML) DataTableAttribute
+	SetBatchButtons(btns Buttons) DataTableAttribute
+	DoBatchContents(ctx *context.Context) DataTableAttribute
 	SetSticky(sticky bool) DataTableAttribute
 	SetHideFilterArea(value bool) DataTableAttribute
 	SetHideRowSelector(value bool) DataTableAttribute

@@ -202,6 +202,7 @@ func (h *Handler) showTable(ctx *context.Context, prefix string, params paramete
 					SetInfoList(infoListArr[key]).
 					SetInfoUrl(infoUrl).
 					SetButtons(btns).
+					SetBatchButtons(info.BatchButtons).
 					SetSticky(hasAction).
 					SetActionJs(btnsJs + actionJs).
 					SetHasFilter(len(panelInfo.FilterFormData) > 0).
@@ -228,6 +229,7 @@ func (h *Handler) showTable(ctx *context.Context, prefix string, params paramete
 			SetInfoList(panelInfo.InfoList).
 			SetInfoUrl(infoUrl).
 			SetButtons(btns).
+			SetBatchButtons(info.BatchButtons).
 			SetSticky(hasAction).
 			SetLayout(info.TableLayout).
 			SetActionJs(btnsJs + actionJs).
@@ -259,7 +261,7 @@ func (h *Handler) showTable(ctx *context.Context, prefix string, params paramete
 		SetBody(body).
 		SetStyle(template2.HTMLAttr(`overflow-x: auto;overflow-y: hidden;`)).
 		SetNoPadding().
-		SetHeader(dataTable.GetDataTableHeader() + info.HeaderHtml).
+		SetHeader(dataTable.DoBatchContents(ctx).GetDataTableHeader() + info.HeaderHtml).
 		WithHeadBorder().
 		SetIframeStyle(!isNotIframe).
 		SetFooter(paginator.GetContent() + info.FooterHtml + `
