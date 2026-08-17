@@ -182,13 +182,18 @@ func (sql *SQLComponent) getFields(delimiter, delimiter2 string) string {
 			}
 		}
 	} else {
-		for _, field := range sql.Fields {
+		for k, field := range sql.Fields {
 			arr := strings.Split(field, ".")
+			temF := ""
 			if len(arr) > 1 {
-				fields += wrap(delimiter, delimiter2, arr[0]) + "." + wrap(delimiter, delimiter2, arr[1]) + ","
+				temF = wrap(delimiter, delimiter2, arr[0]) + "." + wrap(delimiter, delimiter2, arr[1]) + ","
 			} else {
-				fields += wrap(delimiter, delimiter2, field) + ","
+				temF = wrap(delimiter, delimiter2, field) + ","
 			}
+			if sql.Functions[k] != "" {
+				temF = sql.Functions[k] + "(" + temF[:len(temF)-1] + "),"
+			}
+			fields += temF
 		}
 	}
 	return fields[:len(fields)-1]
