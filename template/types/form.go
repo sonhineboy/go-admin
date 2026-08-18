@@ -256,6 +256,7 @@ func (f *FormField) updateValue(id, val string, res map[string]interface{}, typ 
 
 				if f.FormType.IsSingleSelect() {
 					values := f.ToDisplayStringArray(m)
+					f.ValueArr = values
 					f.OptionsArr = make([]FieldOptions, len(values))
 					for k, value := range values {
 						f.OptionsArr[k] = f.Options.Copy().SetSelected(value, f.FormType.SelectedLabel())
